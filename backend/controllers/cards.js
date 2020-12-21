@@ -1,6 +1,7 @@
 const Card = require('../models/card');
 const NotFoundError = require('../errors/NotFoundError');
 const BadRequestError = require('../errors/BadRequestError');
+const ForbiddenError = require('../errors/ForbiddenError');
 
 // Получение всех карточек
 const getCards = (req, res, next) => {
@@ -27,6 +28,8 @@ const deleteCard = (req, res, next) => {
     .then((card) => {
       if (!card) {
         throw new NotFoundError('Карточка не найдена');
+      } else if (card.owner.toString() !== req.user._id) {
+        throw new ForbiddenError('Карточка другого пользователя!');
       } else {
         Card.findByIdAndDelete(req.params.cardId)
           .then(() => res.send({ message: 'Kарточка удалена' }));
