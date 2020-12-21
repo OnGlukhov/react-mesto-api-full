@@ -1,0 +1,11 @@
+@import url(./__title/auth-section__title.css);
+@import url(./__input/auth-section__input.css);
+@import url(./__form/auth-section__form.css);
+@import url(./__button/auth-section__button.css);
+@import url(./__entry/auth-section__entry.css);
+@import url(./__text/auth-section__text.css);
+.auth-section {
+  display: flex;
+  max-width: 358px;
+  margin: 60px auto 170px;
+}

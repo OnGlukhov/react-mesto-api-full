@@ -1,20 +1,17 @@
-import React from 'react';
-import popupVector from '../images/close__icon.svg';
-
-function InfoTooltip(props){
-    return(
-        <div className={`popup popup${props.namePopup} ${props.isOpen ? 'popup_opened' : ''} `}>
-            <form name="OpenForm" method="get" action="#" className={`form popup${props.namePopup}__container popup__form`} noValidate>
-                <button type="reset" className="popup__vector-button" onClick={props.close}>
-                    <img className={`popup${props.namePopup}__vector`} src={popupVector} alt="кнопка закрытия" />
-                </button>
-                <div className={`popup${props.namePopup}__content`}>
-                    <img alt="изображение ответа" src={props.image} className={`popup${props.namePopup}__image`} />
-                    <h3 className={`popup${props.namePopup}__title`}>{props.title}</h3>
-                </div>
-            </form>
-        </div>
-    )
-}
-
+import React from "react";
+const InfoTooltip = ({ isOpen, onClose, title, icon }) => {
+  return (
+    <div className={`popup ${isOpen && "popup_opened"}`}>
+      <div className="popup__container">
+        <img src={icon} alt="Статус" className="popup__status" />
+        <button
+          onClick={onClose}
+          type="button"
+          className="popup__close"
+        ></button>
+        <h3 className="popup__title_status">{title}</h3>
+      </div>
+    </div>
+  );
+};
 export default InfoTooltip;

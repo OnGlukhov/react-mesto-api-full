@@ -1,9 +1,0 @@
-.popup-infotooltip__vector{
-    min-width: 37px;
-    min-height: 37px;
-}
-
-.popup-infotooltip__vector:hover{
-    opacity: .5;
-    transition: .4s;
-}

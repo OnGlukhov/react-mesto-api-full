@@ -1,18 +1,15 @@
 import React from 'react';
-import popupVectorElement from '../images/close__icon.svg';
 
 function ImagePopup(props) {
+    
     return (
-        <div className={`popup popup-element ${props.isOpen && "popup_opened"} `}>
-            <div className="popup__element-container">
-                <img className="popup__element-image" alt="" src={props.url} />
-                <h2 className="popup__element-text">{props.title}</h2>
-                <button type="reset" className="popup__vector-button" onClick={props.onClose}>
-                    <img className="popup__vector-element" src={popupVectorElement} alt="кнопка закрытия" />
-                </button>
-            </div>
+        <section className={`popup popup__type_img ${props.isOpen ? 'popup_opened' : ''}`} >
+        <div className="popup__container_img">
+            <button onClick={props.onClose} className="popup__close popup__close_img" type="button"></button>
+            <img className="popup__photo" src={props.image.link} alt={props.image.name} />
+            <p className="popup__caption">{props.image.name}</p>
         </div>
+    </section>
     )
 }
-
 export default ImagePopup;

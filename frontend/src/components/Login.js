@@ -1,37 +1,71 @@
-import React from 'react';
+import React from "react";
+const Login = ({ handleLogin }) => {
+  const [data, setData] = React.useState({
+    email: "",
+    password: "",
+  });
 
-function Login(props) {
-    const [email, setEmail] = React.useState('')
+  const handleChange = (evt) => {
+    const { name, value } = evt.target;
+    setData({ ...data, [name]: value });
+  };
 
-    const [password, setPassword] = React.useState('')
+  const resetForm = () => {
+    setData("");
+  };
 
-    function handleEmail(e) {
-        setEmail(e.target.value)
+  const handleSubmit = (evt) => {
+    evt.preventDefault();
+    if (!data.email || !data.password) {
+      console.log("Одно из полей не заполнено!");
+      return;
     }
 
-    function handlePassword(e) {
-        setPassword(e.target.value)
-    }
+    setData({
+      ...data,
+      password: "",
+    });
+    handleLogin(data);
+    resetForm();
+  };
 
-    function handleSubmit(e) {
-        e.preventDefault()
-        props.login(email, password)
-    }
-
-    return (
-        <div className="login">
-            <form onSubmit={handleSubmit}>
-                <h1 className="login__title">Вход</h1>
-                <div className="login__input-list">
-                    <input type="Email" autoComplete="off" placeholder="Email" value={email} className="login__input-email" required minLength="2" maxLength="100" onChange={handleEmail} />
-                    <input type="password" autoComplete="off" placeholder="Пароль" value={password} className="login__input-password" required minLength="2" maxLength="100" onChange={handlePassword} />
-                </div>
-                <button type="submit" className="login__button">
-                    Войти
-        </button>
-            </form>
-        </div>
-    )
-}
-
-export default Login 
+  return (
+    <>
+      <div className="auth-section">
+        <form onSubmit={handleSubmit} className="auth-section__form">
+          <h3 className="auth-section__title">Вход</h3>
+          <input
+            type="email"
+            placeholder="Email"
+            name="email"
+            className="auth-section__input"
+            minLength="2"
+            maxLength="40"
+            required
+            id="email"
+            onChange={handleChange}
+            value={data.email || ""}
+          />
+          <span id="auth-section-email-error" className="error"></span>
+          <input
+            type="password"
+            placeholder="Пароль"
+            name="password"
+            value={data.password || ""}
+            className="auth-section__input"
+            minLength="2"
+            maxLength="32"
+            required
+            id="password"
+            onChange={handleChange}
+          />
+          <span id="auth-section-password-error" className="error"></span>
+          <button className="auth-section__button" type="submit">
+            Войти
+          </button>
+        </form>
+      </div>
+    </>
+  );
+};
+export default Login;

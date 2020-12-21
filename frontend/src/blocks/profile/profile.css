@@ -1,33 +1,18 @@
-@import url(./__avatar-info/profile__avatar-info.css);
-@import url(./__avatar-overlay/profile__avatar-overlay.css);
-@import url(./__avatar/profile__avatar.css);
-@import url(./__button-add/profile__button-add.css);
-@import url(./__button/profile__button.css);
+@import url(./__add-button/profile__add-button.css);
+@import url(./__info-author/profile__info-author.css);
 @import url(./__edit-button/profile__edit-button.css);
+@import url(./__info-profession/profile__info-profession.css);
+@import url(./__avatar/profile__avatar.css);
 @import url(./__info/profile__info.css);
-@import url(./__subtitle/profile__subtitle.css);
-@import url(./__title/profile__title.css);
-@import url(./__vector-add/profile__vector-add.css);
-@import url(./__vector-button/profile__vector-button.css);
-
-
-.profile{
-    max-width:  882px;
-    margin: 35px auto auto auto;
-    display:flex;
-    align-items: center;
+@import url(./__info-name/profile__info-name.css);
+@import url(./__cell/profile__cell.css);
+.profile {
+    display: flex;
     justify-content: space-between;
-    flex-direction: row;
+    align-items: center;
 }
-
-@media screen and (max-width : 740px){
-    .profile{
+@media screen and (max-width: 810px) {
+    .profile {
         flex-direction: column;
-    }
-}
-
-@media screen and (max-width : 950px){
-    .profile{
-        max-width: 92.84vw;
     }
 }

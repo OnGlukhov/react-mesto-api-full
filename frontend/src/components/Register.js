@@ -1,43 +1,67 @@
-import React from 'react';
-import { Link } from 'react-router-dom'
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+const Register = ({ handleRegister }) => {
+  const [data, setData] = useState({
+    email: "",
+    password: "",
+  });
 
-function Register(props) {
-    
-    const [email, setEmail] = React.useState('')
+  const handleChange = (evt) => {
+    const { name, value } = evt.target;
+    setData({ ...data, [name]: value });
+  };
+  const resetForm = () => {
+    setData("");
+  };
 
-    const [password, setPassword] = React.useState('')
-
-    function handleEmail(e) {
-        setEmail(e.target.value)
+  const handleSubmit = (evt) => {
+    evt.preventDefault();
+    if (!data.email || !data.password) {
+      console.log("Некорректно заполнено одно из полей");
+      return;
     }
-
-    function handlePassword(e) {
-        setPassword(e.target.value)
-    }
-
-    function handleSubmit(e) {
-        e.preventDefault()
-        props.register(email, password)
-    }
-
-    return (
-        <div className="register">
-            <form onSubmit={handleSubmit} noValidate>
-                <h1 className="register__title">Регистрация</h1>
-                <div className="register__input-list">
-                    <input name="email" type="Email" autoComplete="off" placeholder="Email" className="register__input-email" value={email} required minLength="2" maxLength="100" onChange={handleEmail} />
-                    <input name="password" type="password" autoComplete="off" placeholder="Пароль" className="register__input-password" value={password} required minLength="2" maxLength="100" onChange={handlePassword} />
-                </div>
-                <button type="submit" className="register__button">
-                    Зарегистрироваться
-               </button>
-                <div className="register__sing-in">
-                    <p className="register__text">Уже зарегистрированы?</p>
-                    <Link className="register__link" to="/sing-in">Войти</Link>
-                </div>
-            </form>
-        </div>
-    )
-}
-
-export default Register
+    handleRegister(data);
+    resetForm();
+  };
+  return (
+    <>
+      <div className="auth-section">
+        <form onSubmit={handleSubmit} className="auth-section__form">
+          <h3 className="auth-section__title">Регистрация</h3>
+          <input
+            type="email"
+            placeholder="Email"
+            name="email"
+            value={data.email || ""}
+            className="auth-section__input"
+            minLength="2"
+            maxLength="40"
+            required
+            onChange={handleChange}
+          />
+          <input
+            type="password"
+            placeholder="Пароль"
+            name="password"
+            value={data.password || ""}
+            className="auth-section__input"
+            minLength="2"
+            maxLength="32"
+            required
+            onChange={handleChange}
+          />
+          <button className="auth-section__button" type="submit">
+            Зарегистрироваться
+          </button>
+          <p className="auth-section__text">
+            Уже зарегистрированы?{" "}
+            <Link className="auth-section__entry" to="/sign-in">
+              Войти
+            </Link>
+          </p>
+        </form>
+      </div>
+    </>
+  );
+};
+export default Register;

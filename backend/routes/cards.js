@@ -1,51 +1,38 @@
-/* eslint-disable no-useless-escape */
 const router = require('express').Router();
 const { celebrate, Joi } = require('celebrate');
 const {
-  getCards, postCards, deleteCards, likeCard, dislikeCard,
+  getCards,
+  createCard,
+  deleteCard,
+  likeCard,
+  dislikeCard,
 } = require('../controllers/cards');
 
-router.get('/cards', celebrate({
-  headers: Joi.object().keys({
-    authorization: Joi.string().required().min(100),
-  }).unknown(true),
-}), getCards);
+router.get('/', getCards);
 
-router.post('/cards', celebrate({
-  headers: Joi.object().keys({
-    authorization: Joi.string().required().min(100),
-  }).unknown(true),
+router.post('/', celebrate({
   body: Joi.object().keys({
     name: Joi.string().required().min(2).max(30),
-    link: Joi.string().required().pattern(/(http|https):\/\/(\w+:{0,1}\w*)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%!\-\/]))?/),
+    link: Joi.string().required().pattern(/^(https?:\/\/)?([a-zA-z0-9%$&=?/.-]+)\.([a-zA-z0-9%$&=?/.-]+)([a-zA-z0-9%$&=?/.-]+)?(#)?$/),
   }),
-}), postCards);
+}), createCard);
 
-router.delete('/cards/:cardId', celebrate({
-  headers: Joi.object().keys({
-    authorization: Joi.string().required().min(100),
-  }).unknown(true),
+router.delete('/:cardId', celebrate({
   params: Joi.object().keys({
-    cardId: Joi.string().hex().length(24),
+    cardId: Joi.string().required().length(24).hex(),
   }),
-}), deleteCards);
+}), deleteCard);
 
-router.put('/cards/:_id/likes', celebrate({
-  headers: Joi.object().keys({
-    authorization: Joi.string().required().min(100),
-  }).unknown(true),
+router.delete('/:cardId/likes', celebrate({
   params: Joi.object().keys({
-    _id: Joi.string().hex().length(24),
-  }),
-}), likeCard);
-
-router.delete('/cards/:_id/likes', celebrate({
-  headers: Joi.object().keys({
-    authorization: Joi.string().required().min(100),
-  }).unknown(true),
-  params: Joi.object().keys({
-    _id: Joi.string().hex().length(24),
+    cardId: Joi.string().required().length(24).hex(),
   }),
 }), dislikeCard);
+
+router.put('/:cardId/likes', celebrate({
+  params: Joi.object().keys({
+    cardId: Joi.string().required().length(24).hex(),
+  }),
+}), likeCard);
 
 module.exports = router;

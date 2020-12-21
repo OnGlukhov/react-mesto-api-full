@@ -1,38 +1,47 @@
 import React from 'react';
-import profileVectorButton from '../images/vector1.svg'
-import profileVectorAdd from '../images/vector2.svg'
-import { CurrentUserContext } from '../contexts/CurrentUserContext'
+import Card from './Card';
+import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
-function Main(props) {
-    const userInfo = React.useContext(CurrentUserContext)
-    if(!userInfo){
-        return null
-    }
+const Main = (props) => {
+    const currentUser = React.useContext(CurrentUserContext)
+    const newLocal = props.clickImages;
 
     return (
-        <main>
+        <main className="content">
             <section className="profile">
-                <div className="profile__avatar-info">
-                    <div className="profile__avatar-overlay" onClick={props.onEditAvatar}>
-                        <img name="avatar" className="profile__avatar" alt="Здесь должна быть аватарка" src={userInfo.avatar} />
-                    </div>
-                    <div className="profile__info">
-                        <div className="profile__button">
-                            <h1 name="name" className="profile__title">{userInfo.name}</h1>
-                            <button type="button" className="profile__edit-button" title="Редактировать">
-                                <img className="profile__vector-button" src={profileVectorButton} alt="карандашек" onClick={props.onEditProfile} />
-                            </button>
-                        </div>
-                        <p name="about" className="profile__subtitle">{userInfo.about}</p>
-                    </div>
-                </div>
-                <button type="button" className="profile__button-add" title="Добавить" onClick={props.onAddPlace}>
-                    <img className="profile__vector-add" src={profileVectorAdd} alt="плюсик" />
+
+                <button className="profile__avatar_button" type='button' onClick={props.onEditAvatar} aria-label="Редактировать аватар">
+                    <img src={currentUser.avatar} className="profile__avatar" alt="Аватар" />
                 </button>
+
+                <div className="profile__info">
+                    <div className="profile__info-name">
+                        <h1 className="profile__info-author">{currentUser.name}</h1>
+                        <button type="button" className="profile__edit-button" onClick={props.onEditProfile}></button>
+                    </div>
+                    <p className="profile__info-profession">{currentUser.about}</p>
+                </div>
+                <button type="button" className="profile__add-button" onClick={props.onAddPlace}></button>
             </section>
-            <div className="loading"></div>
+            <section className="elements">
+            {props.cards && props.cards.map((card) => (
+              <Card key={card._id} 
+              card={card} 
+              onCardClick={newLocal}
+              onCardLike={props.onCardLike} 
+              onCardDelete={props.onCardDelete}/>
+            ))}
+
+            </section>
+            <section className="popups">
+  
+            </section>
+
         </main>
+        
+
     )
+
 }
 
-export default Main;
+export default Main

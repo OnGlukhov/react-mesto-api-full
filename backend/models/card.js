@@ -1,36 +1,35 @@
-/* eslint-disable no-useless-escape */
-const { Schema, model } = require('mongoose');
+const mongoose = require('mongoose');
 
-const cardSchema = new Schema({
+const cardSchema = mongoose.Schema({
   name: {
     type: String,
-    minlength: 2,
     required: true,
+    minlength: 2,
     maxlength: 30,
   },
   link: {
     type: String,
     required: true,
-    validate: {
-      validator: (url) => /(http|https):\/\/(\w+:{0,1}\w*)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%!\-\/]))?/.test(url),
-      message: (props) => `${props.value} - некорректный url`,
+    validator(v) {
+      // eslint-disable-next-line no-useless-escape
+      return /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/gi.test(v);
     },
+    message: 'Некорректная ссылка',
   },
   owner: {
-    type: Schema.Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'user',
     required: true,
-    ref: 'user',
   },
-
   likes: [{
-    type: Schema.Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
     default: [],
-    ref: 'user',
   }],
   createdAt: {
     type: Date,
     default: Date.now,
   },
-});
+}, { versionKey: false });
 
-module.exports = model('card', cardSchema);
+module.exports = mongoose.model('card', cardSchema);
